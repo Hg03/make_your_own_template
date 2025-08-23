@@ -1,12 +1,11 @@
 import os
-from dotenv import load_dotenv
-load_dotenv()
+import streamlit as st
 from huggingface_hub import InferenceClient
 
 def execute(prompt: str):
     client = InferenceClient(
         provider="fireworks-ai",
-        api_key=os.getenv("HF_TOKEN"),
+        api_key=st.secrets["HF_TOKEN"],
     )
 
     completion = client.chat.completions.create(
