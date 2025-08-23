@@ -1,7 +1,8 @@
 import streamlit as st
-from myot.generate_dockerfile.dockerfile_template import render_dockerfile
-from myot.generate_dockerfile.base_images import list_of_base_images
-from myot.generate_dockerfile import llm_call
+from myot.generate_templates.dockerfile_template import render_dockerfile
+from myot.generate_templates.pyproject_template import render_pyproject
+from myot.generate_templates.mappings import list_of_base_images, versions
+from myot.generate_templates import llm_call
 
 def main():
     st.title("Make Your Own Template")
@@ -32,8 +33,16 @@ def main():
                     
         elif template_type == "pyproject":
             st.header("pyproject.toml Template Generator")
-            st.info("pyproject.toml template generation is under development.")
-                
+            with st.form(key="pyproject_info"):
+                st.info("I am fetching project name from sidebar.")
+                python_version = st.selectbox(label="Select the Python version you want to use", options=versions)
+                description = st.text_input(label="Provide a short description of your project", placeholder="A short description about your project")
+                dependencies = st.text_area(label="Add your required dependencies", placeholder="fastapi, pandas ..")
+                submit = st.form_submit_button(label="Generate pyproject.toml")
+                if submit:
+                    prompt = render_pyproject(project_name, python_version, description, dependencies)
+                    response = llm_call.execute(prompt)
+                    st.code(response["content"], language="toml") 
     else:
         st.sidebar.info("Please enter a project name and click 'Create Project'.")
 
