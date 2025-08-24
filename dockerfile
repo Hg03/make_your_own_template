@@ -20,4 +20,4 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE $PORT
 
-CMD ["streamlit", "run", "src/myot/app.py"]
+CMD []
