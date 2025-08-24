@@ -4,7 +4,7 @@ from myot.backend.pyproject_template import render_pyproject
 from myot.backend.mappings import list_of_base_images, versions
 from myot.backend import llm_call
 
-st.set_page_config(page_title="Minified", page_icon="🔥", menu_items={"About":"https://linkedin.com/in/harishgehlot"})
+st.set_page_config(page_title="Minified", page_icon="🔥", menu_items={"About":"https://linkedin.com/in/harishgehlot"}, layout="wide")
 
 def main():
     st.title("Minified: Your Project Template Generator 🔥")
