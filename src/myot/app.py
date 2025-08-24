@@ -4,8 +4,10 @@ from myot.generate_templates.pyproject_template import render_pyproject
 from myot.generate_templates.mappings import list_of_base_images, versions
 from myot.generate_templates import llm_call
 
+st.set_page_config(page_title="Minified", page_icon="🔥", menu_items={"About":"https://linkedin.com/in/harishgehlot"})
+
 def main():
-    st.title("Make Your Own Template")
+    st.title("Make Your Own Template 🔥")
     project_name = st.sidebar.text_input(label="What will be your project name ?", placeholder="classifier_project")
     if project_name:
         st.sidebar.success(f"Project '{project_name}' created successfully!")

@@ -8,7 +8,8 @@ dependencies = [
     "fastapi>=0.95.0",
     "huggingface-hub>=0.34.4",
     "python-dotenv>=1.1.1",
-    "streamlit==1.46.1",
+    "reflex>=0.8.7",
+    "streamlit==1.46.1"
 ]
 
 [build-system]
