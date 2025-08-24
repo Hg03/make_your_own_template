@@ -1,6 +1,7 @@
 import streamlit as st
 from myot.backend.dockerfile_template import render_dockerfile
 from myot.backend.pyproject_template import render_pyproject
+from myot.backend.directory_template import render_structure
 from myot.backend.mappings import list_of_base_images, versions
 from myot.backend import llm_call
 
@@ -13,7 +14,10 @@ def main():
     project_placement = st.sidebar.selectbox(label=f"Where do you want to add your {project_name}.", options=[f"Inside src (like src/{project_name}).", f"At root (like {project_name})."])
     if project_name and project_placement:
         st.sidebar.success(f"Project '{project_name}' created successfully!")
+        st.subheader(f"Directory Structure for {project_name}")
         template_type = st.sidebar.selectbox(label="Select the type of template you want to create", options=["Dockerfile", "pyproject"])
+        root_folder = f"src/{project_name}" if project_placement.startswith("Inside src") else f"{project_name}/"
+        st.sidebar.code(render_structure(root_folder, project_name), language="bash")
         if template_type == "Dockerfile":
             st.subheader("Dockerfile Template Generator")
             with st.form(key="dockerfile_info"):
