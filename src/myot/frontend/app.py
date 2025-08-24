@@ -4,13 +4,14 @@ from myot.backend.pyproject_template import render_pyproject
 from myot.backend.mappings import list_of_base_images, versions
 from myot.backend import llm_call
 
-st.set_page_config(page_title="Minified", page_icon="🔥", menu_items={"About":"https://linkedin.com/in/harishgehlot"}, layout="wide")
+st.set_page_config(page_title="Minify", page_icon="🔥", menu_items={"About":"https://linkedin.com/in/harishgehlot"}, layout="wide")
 
 def main():
     st.title("Minified: Your Project Template Generator 🔥")
     st.image('assets/banner.png')
     project_name = st.sidebar.text_input(label="What will be your project name ?", placeholder="classifier_project")
-    if project_name:
+    project_placement = st.sidebar.selectbox(label=f"Where do you want to add your {project_name}.", options=[f"Inside src (like src/{project_name}).", f"At root (like {project_name})."])
+    if project_name and project_placement:
         st.sidebar.success(f"Project '{project_name}' created successfully!")
         template_type = st.sidebar.selectbox(label="Select the type of template you want to create", options=["Dockerfile", "pyproject"])
         if template_type == "Dockerfile":
@@ -27,10 +28,11 @@ def main():
                 workdir = workdir if workdir else "/app"
                 copy = row3[1].selectbox(label="What you want to copy from your project files?", options=["Everything (.)", "Only src"])
                 expose_port = st.number_input(label="Which port do you want to expose?", min_value=1, max_value=65535, value=8000, step=1)
+                cmd = st.text_area(label="What command you want to run to start your application?", placeholder="python main.py, uvicorn main:app --host")
                 extras = st.text_area(label="Any extra commands you want to add?", placeholder="Want to install extras using RUN command. You can add your thoughts.")
                 submit = st.form_submit_button(label="Generate Dockerfile")
                 if submit:
-                    prompt = render_dockerfile(base_image, run_options, workdir, copy, expose_port, extras)
+                    prompt = render_dockerfile(base_image, run_options, workdir, copy, expose_port, cmd, extras)
                     response = llm_call.execute(prompt)
                     st.code(response["content"], language="dockerfile")
                     
@@ -43,7 +45,7 @@ def main():
                 dependencies = st.text_area(label="Add your required dependencies", placeholder="fastapi, pandas ..")
                 submit = st.form_submit_button(label="Generate pyproject.toml")
                 if submit:
-                    prompt = render_pyproject(project_name, python_version, description, dependencies)
+                    prompt = render_pyproject(project_name, python_version, description, dependencies, project_placement)
                     response = llm_call.execute(prompt)
                     st.code(response["content"], language="toml") 
     else:
