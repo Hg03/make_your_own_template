@@ -7,7 +7,8 @@ from myot.backend import llm_call
 st.set_page_config(page_title="Minified", page_icon="🔥", menu_items={"About":"https://linkedin.com/in/harishgehlot"})
 
 def main():
-    st.title("Make Your Own Template 🔥")
+    st.title("Minified: Your Project Template Generator 🔥")
+    st.image('assets/banner.png')
     project_name = st.sidebar.text_input(label="What will be your project name ?", placeholder="classifier_project")
     if project_name:
         st.sidebar.success(f"Project '{project_name}' created successfully!")
