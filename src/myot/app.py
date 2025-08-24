@@ -1,8 +1,8 @@
 import streamlit as st
-from myot.generate_templates.dockerfile_template import render_dockerfile
-from myot.generate_templates.pyproject_template import render_pyproject
-from myot.generate_templates.mappings import list_of_base_images, versions
-from myot.generate_templates import llm_call
+from myot.backend.dockerfile_template import render_dockerfile
+from myot.backend.pyproject_template import render_pyproject
+from myot.backend.mappings import list_of_base_images, versions
+from myot.backend import llm_call
 
 st.set_page_config(page_title="Minified", page_icon="🔥", menu_items={"About":"https://linkedin.com/in/harishgehlot"})
 
